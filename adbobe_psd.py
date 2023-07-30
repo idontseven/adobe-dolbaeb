@@ -1,11 +1,15 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import *
+import os
+from img_filt import *
 
+right_expansion = []
+work_folder = ''
 
 app = QApplication([])
 main_window = QWidget()
 main_window.setWindowTitle('Adobe Photoshop 2077')
-main_window.resize(700,400)
+main_window.resize(900,600)
 
 H = QHBoxLayout()
 main_layout_v1 = QVBoxLayout()
@@ -37,7 +41,43 @@ layout_h_btn.addWidget(btn_b_or_w)
 H.addLayout(main_layout_v1)
 H.addLayout(main_layout_v2)
 
+def chooseWorkDIR():
+    global work_folder
+    work_folder = QFileDialog.getExistingDirectory()
 
+
+def filter(files,right_expansion):
+    result = []
+    for file in files:
+        for re in right_expansion:
+            if file.endswith(re):
+                result.append(file)
+            else:
+                pass        
+    return result
+
+def showFilesName():
+    right_expansion = ['.png','.jpeg','.jpg','.svg','.gif','.psd']
+    chooseWorkDIR()
+    files = filter(os.listdir(work_folder),right_expansion)
+    list_photoes.clear()
+    for file in files:
+        list_photoes.addItem(file)
+
+class Image():
+    def __init__(self,name,image):
+        self.name = name 
+        self.image = image
+    def loadimage(self,filename):
+        self.filename = filename
+        img = os.path.join(work_folder,filename)
+        self.image = Image.open(img)
+    def showImage(self,path):
+        photo.hide()
+        
+        photo.show()
+
+btn_folder.clicked.connect(showFilesName)
 main_window.setLayout(H)
 main_window.show()
 app.exec_()
