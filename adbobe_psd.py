@@ -1,7 +1,7 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import *
 import os
-from img_filt import *
+from Image import *
 
 right_expansion = []
 work_folder = ''
@@ -45,7 +45,6 @@ def chooseWorkDIR():
     global work_folder
     work_folder = QFileDialog.getExistingDirectory()
 
-
 def filter(files,right_expansion):
     result = []
     for file in files:
@@ -63,19 +62,6 @@ def showFilesName():
     list_photoes.clear()
     for file in files:
         list_photoes.addItem(file)
-
-class Image():
-    def __init__(self,name,image):
-        self.name = name 
-        self.image = image
-    def loadimage(self,filename):
-        self.filename = filename
-        img = os.path.join(work_folder,filename)
-        self.image = Image.open(img)
-    def showImage(self,path):
-        photo.hide()
-        
-        photo.show()
 
 btn_folder.clicked.connect(showFilesName)
 main_window.setLayout(H)
